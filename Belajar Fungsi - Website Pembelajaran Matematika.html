@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belajar Fungsi</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark;
+--bg:#0d1117;--card:#161b22;--ink:#c9d1d9;--mut:#8b949e;--pri:#58a6ff;--acc:#3fb950;--soft:#10243a;--line:#30363d;--ok:#3fb950;--f:#ff7b72;--g:#3fb950;--h:#58a6ff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--pri);color:#fff;padding:14px 18px;font-weight:600;font-size:1.1rem}
+main{padding:14px 14px 96px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.hello{background:var(--pri);color:#fff}.hello h2{margin:0 0 2px;font-size:1.2rem}.hello p{margin:0;opacity:.9;font-size:.9rem}
+h3.t{margin:16px 2px 8px;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+.item{display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px 14px}
+.item:active{background:var(--soft)}
+.badge{flex:none;width:40px;height:40px;border-radius:10px;background:var(--soft);color:var(--pri);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.item div.tx{flex:1}.item b{display:block}.item small{color:var(--mut)}
+.chev{color:var(--mut);font-size:1.4rem}
+.fn{display:flex;gap:8px;align-items:center;margin:8px 0}
+.fn label{font-weight:700;width:52px}
+input[type=number],select{padding:9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input[type=number]{width:74px}select{width:100%}
+canvas{width:100%;aspect-ratio:1;display:block;border-radius:8px}
+.legend{font-size:.85rem;color:var(--mut)}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin:0 4px 0 10px}
+.step{display:flex;gap:10px;margin:12px 0}
+.step .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--pri);color:#fff;font-size:.8rem;display:grid;place-items:center;font-weight:700}
+.step p{margin:0 0 4px;font-size:.9rem;color:var(--mut)}
+.step code{display:block;background:var(--bg);border-radius:8px;padding:8px 10px;font:600 .95rem/1.6 ui-monospace,Consolas,monospace;overflow-x:auto;white-space:nowrap}
+.final{background:var(--soft);border-left:4px solid var(--pri);border-radius:8px;padding:10px 12px;font-weight:700}
+.btn{width:100%;background:var(--pri);color:#fff;border:0;border-radius:10px;padding:11px;font:inherit;font-weight:600;cursor:pointer;margin-top:8px}
+.ans{display:none;margin-top:6px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
+nav button{flex:1;border:0;background:none;color:var(--mut);padding:8px 0 6px;font:inherit;font-size:.7rem;cursor:pointer}
+nav button svg{display:block;margin:0 auto 2px;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--pri);font-weight:700}
+.bar{display:flex;justify-content:space-between;align-items:center}
+.bar button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:8px;padding:5px 12px;font:inherit;font-size:.8rem;cursor:pointer}
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:var(--pri)}
+.lbox{width:100%;max-width:380px;background:var(--card);border-radius:16px;padding:26px 22px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.logo{width:64px;height:64px;border-radius:16px;background:var(--soft);color:var(--pri);display:grid;place-items:center;margin:0 auto 10px;font:700 1.1rem/1 ui-monospace,Consolas,monospace}
+.lbox h1{margin:0;font-size:1.35rem}.lbox p{margin:2px 0 16px;color:var(--mut);font-size:.9rem}
+.lbox input{width:100%;padding:12px;margin-bottom:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+#lerr{color:#d62d20;font-size:.85rem;min-height:1.2em;margin-bottom:4px}
+.ghost{width:100%;background:none;border:0;color:var(--pri);font:inherit;font-weight:600;padding:10px;cursor:pointer;margin-top:4px}
+.lbox small{display:block;margin-top:10px;color:var(--mut);font-size:.75rem}
+
+body{font-family:ui-monospace,"JetBrains Mono","Fira Code",Consolas,Menlo,monospace;font-size:14px}
+.bar{background:var(--card);color:var(--acc);border-bottom:1px solid var(--line);font-size:.95rem}
+#ttl::before{content:"~/belajar-fungsi/";color:var(--mut);margin-right:2px}
+#ttl{text-transform:lowercase}
+.bar button{background:none;border:1px solid var(--line);color:var(--mut);border-radius:6px}
+.card{border:1px solid var(--line);border-radius:6px;box-shadow:none}
+.hello{background:var(--card);color:var(--ink);border-left:3px solid var(--acc)}
+.hello h2{color:var(--acc);font-size:1.05rem}.hello h2::before{content:"$ echo ";color:var(--mut)}
+.hello p{color:var(--mut)}.hello p::before{content:"// "}
+h3.t::before{content:"# "}h3.t{text-transform:none;letter-spacing:0}
+.item:active,.item:hover{background:var(--soft)}
+.badge{border-radius:4px;background:none;border:1px solid var(--pri);color:var(--pri);width:46px;height:30px;font-size:.75rem}
+.item small::before{content:"// "}
+.chev{color:var(--acc)}
+input[type=number],select,.lbox input{background:#010409;border-radius:6px;font-family:inherit}
+input:focus,select:focus{outline:1px solid var(--acc);border-color:var(--acc)}
+.step .n{border-radius:4px;background:var(--acc);color:#04120a}
+.step code{background:#010409;color:#7ee787;border:1px solid var(--line);border-radius:6px}
+.step code::before{content:"> ";color:var(--mut)}
+.final{background:#0f2417;border-left:4px solid var(--acc);color:#7ee787;border-radius:6px}
+.final::before{content:"=> ";color:var(--mut)}
+.btn{background:#238636;border-radius:6px;font-family:inherit}
+.btn::before{content:"$ "}
+.ghost{color:var(--mut);font-family:inherit}
+nav{background:var(--card)}nav button{font-family:inherit}nav button.on{color:var(--acc)}
+#login{background:var(--bg)}
+.lbox{border:1px solid var(--line);border-radius:8px;box-shadow:none;text-align:left}
+.lbox p{margin-bottom:16px}.lbox p::before{content:"// "}
+.logo{border-radius:6px;background:none;border:1px solid var(--acc);color:var(--acc);margin:0 0 12px;width:56px;height:40px}
+#lerr{color:var(--f)}
+aside{display:none}
+.brand{color:var(--acc);font-weight:700;margin-bottom:4px}
+.who{color:var(--mut);font-size:.8rem;margin-bottom:14px;word-break:break-word}
+.sh{color:var(--mut);font-size:.75rem;margin:12px 6px 6px}
+.si{display:flex;gap:8px;align-items:center;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:6px;color:var(--ink);padding:9px 10px;font:inherit;cursor:pointer;margin-bottom:4px}
+.si:hover{background:var(--soft)}
+.si.on{border-color:var(--acc);color:var(--acc);background:#0f2417}
+.si b{color:var(--pri);font-weight:700;min-width:36px}
+@media (min-width:760px){
+.app{max-width:none;display:grid;grid-template-columns:270px 1fr;grid-template-rows:auto 1fr}
+aside{display:flex;flex-direction:column;grid-row:1/3;grid-column:1;align-self:start;position:sticky;top:env(safe-area-inset-top,0px);height:100vh;background:var(--card);border-right:1px solid var(--line);padding:18px 12px;overflow-y:auto}
+.bar{grid-column:2}
+main{grid-column:2;max-width:820px;width:100%;padding:20px 28px 40px}
+nav{display:none}
+}
+.ed{border:1px solid var(--line);border-radius:6px;background:#010409;margin-bottom:12px;overflow:hidden}
+.edh{display:flex;align-items:center;gap:6px;background:var(--card);border-bottom:1px solid var(--line);padding:8px 12px;color:var(--mut);font-size:.8rem}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.ed pre{margin:0;padding:12px 14px;font:inherit;line-height:1.7;overflow-x:auto;white-space:pre}
+.k{color:#79c0ff}.ed .s{color:#a5d6ff}.c{color:#8b949e}.p{color:#3fb950}
+.cur{animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+.mat h4{color:var(--acc);margin:16px 0 6px}.mat p{margin:4px 0}
+.rm{background:#010409;border:1px solid var(--line);border-radius:6px;padding:8px 10px;color:#7ee787;margin:6px 0;overflow-x:auto;white-space:nowrap}
+:root{--y:#e3b341}
+.gr{display:flex;align-items:center;gap:8px;margin:6px 0}.gr i{width:10px;height:10px;border-radius:50%;flex:none}.gr span{width:56px;font-weight:700}
+.gr input{flex:1;min-width:0;padding:9px;border:1px solid var(--line);border-radius:6px;background:#010409;color:var(--ink);font:inherit}.gr input.bad{border-color:var(--f)}
+.gbtn{display:flex;gap:6px;margin-top:8px}.gbtn .btn{margin:0;flex:1}.gbtn .btn::before{content:""}
+a.btn{display:block;text-align:center;text-decoration:none;box-sizing:border-box;background:none;border:1px solid var(--line);color:var(--ink)}
+</style>
+</head>
+<body>
+<div id="login"><div class="lbox"><div class="logo">&gt;_</div><h1>Belajar Fungsi</h1><p>masuk untuk mulai belajar</p>
+<input id="lu" type="text" placeholder="Nama lengkap" autocomplete="name">
+<input id="lp" type="text" placeholder="Kelas (contoh: XI IPA 1)">
+<div id="lerr"></div>
+<button class="btn" id="lgo">Masuk</button>
+<button class="ghost" id="lguest">Masuk sebagai Guru</button>
+<small>Prototype: nama dan kelas hanya ditampilkan, tidak disimpan.</small></div></div>
+<div class="app" style="display:none">
+<aside>
+<div class="brand">&gt;_ belajar-fungsi</div><div class="who" id="who"></div>
+<div class="sh"># dashboard</div>
+<button class="si on" data-v="dash"><b>~</b>Beranda</button>
+<div class="sh"># kegiatan belajar</div>
+<button class="si" data-v="kb1"><b>KB 1</b>Fungsi Linier</button>
+<button class="si" data-v="kb2"><b>KB 2</b>Fungsi Kuadrat</button>
+<button class="si" data-v="kalk"><b>KB 3</b>Komposisi &amp; Invers</button>
+<button class="si" data-v="soal"><b>KB 4</b>Program Linier</button>
+<div class="sh"># alat</div>
+<button class="si" data-v="grafik"><b>f(x)</b>Grafik GeoGebra</button>
+<div class="sh"># lainnya</div>
+<button class="si" data-v="proyek"><b>★</b>Proyek</button>
+</aside>
+<div class="bar"><span id="ttl">Beranda</span><button id="out">Keluar</button></div>
+<main>
+
+<section id="dash" class="on">
+<div class="card hello"><h2 id="hi">Halo, selamat belajar!</h2><p id="hp">Materi Fungsi - Matematika</p></div>
+<h3 class="t">Kegiatan Belajar</h3>
+<div class="card item" data-go="kb1"><span class="badge">KB 1</span><div class="tx"><b>Fungsi Linier</b><small>Bentuk f(x) = ax + b dan grafiknya</small></div><span class="chev">›</span></div>
+<div class="card item" data-go="kb2"><span class="badge">KB 2</span><div class="tx"><b>Fungsi Kuadrat</b><small>Grafik dan bentuk fungsi</small></div><span class="chev">›</span></div>
+<div class="card item" data-go="kalk"><span class="badge">KB 3</span><div class="tx"><b>Komposisi &amp; Invers</b><small>Hitung f∘g, g∘f, f⁻¹ beserta caranya</small></div><span class="chev">›</span></div>
+<div class="card item" data-go="soal"><span class="badge">KB 4</span><div class="tx"><b>Program Linier</b><small>Contoh soal dan pembahasan</small></div><span class="chev">›</span></div>
+<h3 class="t">Lainnya</h3>
+<div class="card item" data-go="proyek"><span class="badge">★</span><div class="tx"><b>Proyek</b><small>Tentang tugas dan kelompok</small></div><span class="chev">›</span></div>
+</section>
+
+<section id="grafik">
+<div class="card"><small class="legend">// ketik fungsi, contoh: x+3 , 2x-4 , x^2-4x+3</small>
+<div class="gr"><i style="background:var(--f)"></i><span>f(x) =</span><input type="text" id="e0" value="x+3"></div>
+<div class="gr"><i style="background:var(--g)"></i><span>g(x) =</span><input type="text" id="e1" value="x^2-4x+3"></div>
+<div class="gr"><i style="background:var(--h)"></i><span>h(x) =</span><input type="text" id="e2" value=""></div>
+<div class="gr"><i style="background:var(--y)"></i><span>p(x) =</span><input type="text" id="e3" value=""></div>
+<div class="gbtn"><button class="btn" id="zi">+</button><button class="btn" id="zo">−</button><button class="btn" id="zr">reset</button></div>
+<a class="btn" href="https://www.geogebra.org/graphing" target="_blank" rel="noopener">Buka GeoGebra asli</a></div>
+<div class="card"><canvas id="cv" width="600" height="600" style="touch-action:none;cursor:grab"></canvas>
+<p class="legend">// geser grafik dengan drag, zoom dengan scroll atau tombol +/−</p><div id="ginfo" class="legend"></div></div>
+</section>
+
+<section id="kb1">
+<div class="card mat"><h4># 1. Pengertian</h4>
+<p>Fungsi linier adalah fungsi yang grafiknya berupa garis lurus.</p><div class="rm">f(x) = ax + b</div>
+<p>a = gradien (kemiringan), b = titik potong sumbu y. Jika a &gt; 0 garis naik, jika a &lt; 0 garis turun.</p>
+<h4># 2. Cara menggambar grafik</h4>
+<p>1) Titik potong sumbu y: x = 0, hasilnya (0, b).<br>2) Titik potong sumbu x: f(x) = 0, hasilnya x = −b/a.<br>3) Hubungkan kedua titik dengan garis lurus.</p>
+<h4># 3. Contoh: f(x) = 2x − 4</h4>
+<div class="rm">x = 0 → f(0) = −4 → titik (0, −4)<br>2x − 4 = 0 → x = 2 → titik (2, 0)<br>gradien = 2 (garis naik)</div>
+<button class="btn" onclick="gx('2x-4')">Gambar di grafik</button>
+<h4># 4. Fungsi dari dua titik</h4>
+<p>Garis melalui (1, 3) dan (3, 7).</p>
+<div class="rm">m = (7 − 3) / (3 − 1) = 2<br>y − 3 = 2(x − 1)<br>y = 2x + 1</div>
+<button class="btn" onclick="gx('2x+1')">Gambar di grafik</button></div>
+<div class="card"><b>Coba sendiri</b>
+<div class="fn"><label>f(x) =</label><input type="number" id="la" value="2"> x + <input type="number" id="lb" value="-4"></div>
+<div id="l1out"></div></div>
+</section>
+<section id="kb2">
+<div class="card mat"><h4># 1. Pengertian</h4>
+<p>Fungsi kuadrat grafiknya berupa parabola.</p><div class="rm">f(x) = ax² + bx + c , a ≠ 0</div>
+<p>Jika a &gt; 0 parabola terbuka ke atas (punya titik minimum). Jika a &lt; 0 terbuka ke bawah (titik maksimum).</p>
+<h4># 2. Unsur-unsur grafik</h4>
+<div class="rm">titik potong sumbu y : (0, c)<br>titik potong sumbu x : ax² + bx + c = 0<br>diskriminan : D = b² − 4ac<br>sumbu simetri : x = −b / 2a<br>titik puncak : (−b/2a , −D/4a)</div>
+<p>D &gt; 0: memotong sumbu x di dua titik. D = 0: menyinggung sumbu x. D &lt; 0: tidak memotong sumbu x.</p>
+<h4># 3. Contoh: f(x) = x² − 4x + 3</h4>
+<div class="rm">a = 1, b = −4, c = 3<br>D = (−4)² − 4(1)(3) = 4 (dua akar)<br>(x − 1)(x − 3) = 0 → x = 1 atau x = 3<br>sumbu simetri x = 4/2 = 2<br>f(2) = 4 − 8 + 3 = −1 → puncak (2, −1)<br>titik potong y = (0, 3)</div>
+<button class="btn" onclick="gx('x^2-4x+3')">Gambar di grafik</button></div>
+<div class="card"><b>Coba sendiri</b>
+<div class="fn"><label>f(x) =</label><input type="number" id="qa" value="1"> x² + <input type="number" id="qb" value="-4"> x + <input type="number" id="qc" value="3"></div>
+<div id="l2out"></div></div>
+</section>
+
+<section id="kalk">
+<div class="card">
+<div class="fn"><label>f(x) =</label><input type="number" id="km1" value="1"> x + <input type="number" id="kc1" value="3"></div>
+<div class="fn"><label>g(x) =</label><input type="number" id="km2" value="4"> x + <input type="number" id="kc2" value="5"></div>
+<div class="fn"><label>h(x) =</label><input type="number" id="km3" value="3"> x + <input type="number" id="kc3" value="-9"></div>
+<div class="fn"><label>x =</label><input type="number" id="kx" value="2"></div>
+<select id="ksel"></select></div>
+<div class="card" id="kout"></div>
+</section>
+
+<section id="soal">
+<div class="card"><b>Soal 1</b><p>Diketahui f(x) = x + 3 dan g(x) = 4x + 5. Tentukan (f∘g)(x).</p>
+<button class="btn" data-a="a1">Lihat cara pengerjaan</button><div class="ans" id="a1"></div></div>
+<div class="card"><b>Soal 2</b><p>Diketahui f(x) = x + 3 dan g(x) = 4x + 5. Tentukan (g∘f)(x).</p>
+<button class="btn" data-a="a2">Lihat cara pengerjaan</button><div class="ans" id="a2"></div></div>
+<div class="card"><b>Soal 3</b><p>Jika h(x) = 3x − 9, tentukan h⁻¹(x).</p>
+<button class="btn" data-a="a3">Lihat cara pengerjaan</button><div class="ans" id="a3"></div></div>
+<div class="card"><b>Soal 4</b><p>Tentukan (f∘g∘h)(x) untuk f(x) = x + 3, g(x) = 4x + 5, h(x) = 3x − 9.</p>
+<button class="btn" data-a="a4">Lihat cara pengerjaan</button><div class="ans" id="a4"></div></div>
+</section>
+
+<section id="proyek">
+<div class="ed"><div class="edh"><i class="dot" style="background:#ff5f56"></i><i class="dot" style="background:#ffbd2e"></i><i class="dot" style="background:#27c93f"></i><span>&nbsp;project.json</span></div>
+<pre>{
+  <span class="k">"proyek"</span>: <span class="s">"Website Pembelajaran Matematika"</span>,
+  <span class="k">"materi"</span>: <span class="s">"Fungsi: linier, komposisi, invers"</span>,
+  <span class="k">"nama"</span>: <span class="s">"Mutiara"</span>,
+  <span class="k">"kelas"</span>: <span class="s">"XI RPL"</span>,
+  <span class="k">"teknologi"</span>: [<span class="s">"HTML"</span>, <span class="s">"CSS"</span>, <span class="s">"JavaScript"</span>],
+  <span class="k">"status"</span>: <span class="s">"prototype"</span>
+}</pre></div>
+<div class="ed"><div class="edh"><i class="dot" style="background:#ff5f56"></i><i class="dot" style="background:#ffbd2e"></i><i class="dot" style="background:#27c93f"></i><span>&nbsp;terminal</span></div>
+<pre><span class="p">$</span> ls fitur/
+<span class="p">[x]</span> login        <span class="c">// nama + kelas</span>
+<span class="p">[x]</span> dashboard    <span class="c">// sidebar KB 1-4</span>
+<span class="p">[x]</span> grafik       <span class="c">// f(x), g(x), h(x)</span>
+<span class="p">[x]</span> kalkulator   <span class="c">// komposisi &amp; invers + langkah</span>
+<span class="p">[x]</span> contoh-soal
+
+<span class="p">$</span> <span class="cur">_</span></pre></div>
+</section>
+
+</main>
+<nav id="nav">
+<button data-v="dash" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg>Beranda</button>
+<button data-v="grafik"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M7 15l4-5 3 3 5-7"/></svg>Grafik</button>
+<button data-v="kalk"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M12 12h2M8 16h2M12 16h2"/></svg>Kalkulator</button>
+<button data-v="soal"><svg viewBox="0 0 24 24"><path d="M4 4h12a3 3 0 013 3v13H7a3 3 0 01-3-3zM8 8h7"/></svg>Soal</button>
+<button data-v="proyek"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Proyek</button>
+</nav>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const TT={dash:"Beranda",kb1:"KB 1 Fungsi Linier",kb2:"KB 2 Fungsi Kuadrat",grafik:"Grafik GeoGebra",kalk:"Materi Kalkulator",soal:"Contoh Soal",proyek:"Proyek"};
+function show(v){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===v));
+document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+$("ttl").textContent=TT[v];
+{const c=document.querySelector(".si.on");if(!c||c.dataset.v!==v){document.querySelectorAll(".si").forEach(x=>x.classList.remove("on"));const f=document.querySelector('.si[data-v="'+v+'"]');if(f)f.classList.add("on")}}
+if(v==="grafik")draw();window.scrollTo(0,0)}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.v));
+document.querySelectorAll(".si").forEach(b=>b.onclick=()=>{document.querySelectorAll(".si").forEach(x=>x.classList.toggle("on",x===b));show(b.dataset.v)});
+document.querySelectorAll("[data-go]").forEach(c=>c.onclick=()=>show(c.dataset.go));
+document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{const e=$(b.dataset.a);const o=e.style.display==="block";e.style.display=o?"none":"block";b.textContent=o?"Lihat cara pengerjaan":"Sembunyikan"});
+const n=id=>parseFloat($(id).value)||0;
+const r=x=>Math.round(x*10000)/10000;
+function fmt(m,c){m=r(m);c=r(c);if(m===0)return String(c);
+let s=m===1?"x":m===-1?"−x":String(m).replace("-","−")+"x";
+return c>0?s+" + "+c:c<0?s+" − "+Math.abs(c):s}
+const F2=o=>fmt(o.m,o.c);
+const comp=(a,b)=>({m:a.m*b.m,c:a.m*b.c+a.c});
+const nest=(names)=>names.reduceRight((acc,k)=>k+"("+acc+")","x");
+function sub(a,s){let t=a.m===1?s:a.m===-1?"−("+s+")":String(r(a.m)).replace("-","−")+"("+s+")";
+return a.c>0?t+" + "+r(a.c):a.c<0?t+" − "+Math.abs(r(a.c)):t}
+function st(list){return list.map((s,i)=>`<div class="step"><span class="n">${i+1}</span><div><p>${s[0]}</p><code>${s[1]}</code></div></div>`).join("")}
+function compSteps(names,F,xv){
+const lab=names.join("∘"),S=[];
+S.push(["Tulis definisi komposisi (kerjakan dari dalam)",`(${lab})(x) = ${nest(names)}`]);
+S.push(["Tulis fungsi yang diketahui",[...new Set(names)].map(k=>`${k}(x) = ${F2(F[k])}`).join("<br>")]);
+let cur=F[names[names.length-1]];
+for(let i=names.length-2;i>=0;i--){const a=F[names[i]],k=names[i],res=comp(a,cur),inner=nest(names.slice(i+1));
+S.push([`Masukkan ${names.slice(i+1).join("∘")}(x) ke dalam ${k}`,`${k}(${inner}) = ${sub(a,F2(cur))}<br>= ${F2(res)}`]);cur=res}
+let h=st(S)+`<div class="final">(${lab})(x) = ${F2(cur)}</div>`;
+if(xv!==undefined)h+=`<div class="step"><span class="n">✓</span><div><p>Nilai untuk x = ${xv}</p><code>${sub(cur,"x").replace("x","x")} → ${r(cur.m*xv+cur.c)}</code></div></div>`;
+return h}
+function invSteps(k,F){const q=F[k];
+if(q.m===0)return `<div class="final">${k}(x) = ${r(q.c)} adalah fungsi konstan, tidak punya invers.</div>`;
+const c=r(q.c),m=r(q.m),M=String(m).replace("-","−");
+const S=[["Misalkan y = "+k+"(x)",`y = ${F2(q)}`],
+["Pindahkan konstanta ke ruas kiri",`y ${c>=0?"−":"+"} ${Math.abs(c)} = ${m===1?"":M}x`],
+["Bagi dengan koefisien x, sehingga x sendirian",`x = (y ${c>=0?"−":"+"} ${Math.abs(c)}) / ${M}`],
+["Ganti y dengan x, x menjadi "+k+"⁻¹(x)",`${k}⁻¹(x) = (x ${c>=0?"−":"+"} ${Math.abs(c)}) / ${M}<br>= ${fmt(1/q.m,-q.c/q.m)}`]];
+return st(S)+`<div class="final">${k}⁻¹(x) = ${fmt(1/q.m,-q.c/q.m)}</div>`}
+const F0={f:{m:1,c:3},g:{m:4,c:5},h:{m:3,c:-9}};
+$("a1").innerHTML=compSteps(["f","g"],F0);$("a2").innerHTML=compSteps(["g","f"],F0);
+$("a3").innerHTML=invSteps("h",F0);$("a4").innerHTML=compSteps(["f","g","h"],F0);
+const opts=[["Komposisi 2 fungsi",["fg","gf","fh","hf","gh","hg"].map(s=>[s,s.split("").join("∘")])],
+["Komposisi 3 fungsi",["fgh","fhg","gfh","ghf","hfg","hgf"].map(s=>[s,s.split("").join("∘")])],
+["Invers",["f","g","h"].map(k=>["i"+k,k+"⁻¹"])]];
+$("ksel").innerHTML=opts.map(g=>`<optgroup label="${g[0]}">${g[1].map(o=>`<option value="${o[0]}">${o[1]}</option>`).join("")}</optgroup>`).join("");
+function calc(){const F={f:{m:n("km1"),c:n("kc1")},g:{m:n("km2"),c:n("kc2")},h:{m:n("km3"),c:n("kc3")}};
+const v=$("ksel").value;
+$("kout").innerHTML=v[0]==="i"&&v.length===2?invSteps(v[1],F):compSteps(v.split(""),F,n("kx"))}
+["km1","kc1","km2","kc2","km3","kc3","kx","ksel"].forEach(i=>$(i).oninput=calc);
+const cssv=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const GN=["f","g","h","p"],GC=["--f","--g","--h","--y"],gv={x:0,y:0,s:30};
+function mk(str){let t=str.replace(/−/g,"-").replace(/\s+/g,"").toLowerCase().replace(/^[a-z]\(x\)=/,"").replace(/\^/g,"**");
+t=t.replace(/(\d|\))(?=x|\()/g,"$1*").replace(/x(?=\d|\()/g,"x*").replace(/(^|\(|(?<!\*)[+*\/])-/g,"$1-1*");
+if(!t||!/^[0-9x+\-*\/().]+$/.test(t))return null;
+try{const f=new Function("x","return "+t);return typeof f(1)==="number"?f:null}catch(e){return null}}
+function poly(f){const c=f(0),a=(f(1)+f(-1))/2-c,b=(f(1)-f(-1))/2;if(![a,b,c].every(isFinite))return null;
+return Math.abs(f(2)-(4*a+2*b+c))<1e-6&&Math.abs(f(3)-(9*a+3*b+c))<1e-6?{a,b,c}:null}
+function draw(){const cv=$("cv"),ctx=cv.getContext("2d"),W=cv.width,ox=gv.x,oy=gv.y,s=gv.s;
+const sx=u=>W/2+(u-ox)*s,sy=v=>W/2-(v-oy)*s,ux=p=>(p-W/2)/s+ox,uy=p=>oy-(p-W/2)/s;
+ctx.clearRect(0,0,W,W);const st=[.1,.2,.5,1,2,5,10,20,50,100].find(v=>v*s>=36)||100;
+ctx.font="12px monospace";ctx.lineWidth=1;ctx.fillStyle=cssv("--mut");
+const ly=Math.min(W-4,Math.max(12,sy(0)+14)),lx=Math.min(W-30,Math.max(4,sx(0)+4));
+for(let i=Math.floor(ux(0)/st);i<=Math.ceil(ux(W)/st);i++){const p=sx(i*st);ctx.strokeStyle=cssv("--line");ctx.beginPath();ctx.moveTo(p,0);ctx.lineTo(p,W);ctx.stroke();if(i)ctx.fillText(r(i*st),p+2,ly)}
+for(let i=Math.floor(uy(W)/st);i<=Math.ceil(uy(0)/st);i++){const p=sy(i*st);ctx.strokeStyle=cssv("--line");ctx.beginPath();ctx.moveTo(0,p);ctx.lineTo(W,p);ctx.stroke();if(i)ctx.fillText(r(i*st),lx,p-2)}
+ctx.strokeStyle=cssv("--ink");ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sx(0),0);ctx.lineTo(sx(0),W);ctx.moveTo(0,sy(0));ctx.lineTo(W,sy(0));ctx.stroke();
+const info=[];
+for(let i=0;i<4;i++){const el=$("e"+i),str=el.value.trim();el.classList.remove("bad");if(!str)continue;
+const f=mk(str);if(!f){el.classList.add("bad");continue}
+ctx.strokeStyle=cssv(GC[i]);ctx.lineWidth=3;ctx.beginPath();let on=false;
+for(let p=0;p<=W;p+=2){const y=f(ux(p)),q=sy(y);if(!isFinite(y)||Math.abs(q)>5000){on=false;continue}on?ctx.lineTo(p,q):ctx.moveTo(p,q);on=true}ctx.stroke();
+const P=poly(f);if(!P)continue;const{a,b,c}=P,pts=[[0,c]];let tx=`${GN[i]}(x): titik y (0, ${r(c)})`;
+if(Math.abs(a)<1e-9){if(b!==0){pts.push([-c/b,0]);tx+=`; akar x = ${r(-c/b)}`}}
+else{const D=b*b-4*a*c;
+if(D>1e-9){const q=Math.sqrt(D),x1=(-b-q)/(2*a),x2=(-b+q)/(2*a);pts.push([x1,0],[x2,0]);tx+=`; akar x = ${r(Math.min(x1,x2))} dan ${r(Math.max(x1,x2))}`}
+else if(Math.abs(D)<=1e-9){pts.push([-b/(2*a),0]);tx+=`; akar x = ${r(-b/(2*a))}`}else tx+="; tidak ada akar real";
+const xp=-b/(2*a),yp=a*xp*xp+b*xp+c;pts.push([xp,yp]);tx+=`; puncak (${r(xp)}, ${r(yp)})`}
+ctx.fillStyle=cssv(GC[i]);pts.forEach(([u,v])=>{ctx.beginPath();ctx.arc(sx(u),sy(v),5,0,7);ctx.fill();ctx.fillStyle=cssv("--ink");ctx.fillText(`(${r(u)}, ${r(v)})`,sx(u)+7,sy(v)-7);ctx.fillStyle=cssv(GC[i])});
+info.push(`<span style="color:var(${GC[i]})">${tx}</span>`)}
+$("ginfo").innerHTML=info.join("<br>")}
+const zoom=k=>{gv.s=Math.min(300,Math.max(5,gv.s*k));draw()};
+const cv0=$("cv");let drag=null;
+cv0.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY};cv0.setPointerCapture(e.pointerId)};
+cv0.onpointermove=e=>{if(!drag)return;const k=cv0.width/cv0.getBoundingClientRect().width/gv.s;gv.x-=(e.clientX-drag.x)*k;gv.y+=(e.clientY-drag.y)*k;drag={x:e.clientX,y:e.clientY};draw()};
+cv0.onpointerup=cv0.onpointercancel=()=>{drag=null};
+cv0.addEventListener("wheel",e=>{e.preventDefault();zoom(e.deltaY<0?1.15:1/1.15)},{passive:false});
+$("zi").onclick=()=>zoom(1.25);$("zo").onclick=()=>zoom(.8);$("zr").onclick=()=>{gv.x=gv.y=0;gv.s=30;draw()};
+[0,1,2,3].forEach(i=>$("e"+i).oninput=draw);
+function gx(str){str.split("|").concat(["","","",""]).slice(0,4).forEach((v,i)=>$("e"+i).value=v);gv.x=gv.y=0;gv.s=30;show("grafik")}
+const T=(v,t)=>{v=r(v);if(v===0)return"";const m=Math.abs(v);return" "+(v<0?"−":"+")+" "+((m===1&&t)?"":m)+t};
+const q2=(a,b,c)=>(r(a)===1?"":r(a)===-1?"−":String(r(a)).replace("-","−"))+"x²"+T(b,"x")+T(c,"");
+function linOut(){const a=n("la"),b=n("lb");
+if(a===0){$("l1out").innerHTML=st([["a = 0 → fungsi konstan (garis datar)",`f(x) = ${r(b)}`]]);return}
+$("l1out").innerHTML=st([["Bentuk fungsi",`f(x) = ${fmt(a,b)}`],["Gradien (a)",`m = ${r(a)} → garis ${a>0?"naik":"turun"}`],
+["Titik potong sumbu y (x = 0)",`f(0) = ${r(b)} → (0, ${r(b)})`],
+["Titik potong sumbu x (f(x) = 0)",`${fmt(a,b)} = 0<br>x = −(${r(b)}) / ${r(a)} = ${r(-b/a)} → (${r(-b/a)}, 0)`]])+`<button class="btn" onclick="gx('${r(a)}x+${r(b)}')">Gambar di grafik</button>`}
+function quadOut(){const a=n("qa"),b=n("qb"),c=n("qc");
+if(a===0){$("l2out").innerHTML=st([["a tidak boleh 0 (kalau a = 0 itu fungsi linier)","a ≠ 0"]]);return}
+const D=b*b-4*a*c,xp=-b/(2*a),yp=a*xp*xp+b*xp+c,g=v=>"("+r(v)+")";let rt;
+if(D>0){const q=Math.sqrt(D);rt=`x = (−b ± √D) / 2a<br>x₁ = ${r((-b-q)/(2*a))} , x₂ = ${r((-b+q)/(2*a))}`}
+else if(D===0)rt=`x = −b / 2a = ${r(xp)} (akar kembar)`;else rt="D &lt; 0 → tidak ada akar real";
+$("l2out").innerHTML=st([["Bentuk fungsi dan arah parabola",`f(x) = ${q2(a,b,c)}<br>a ${a>0?"&gt; 0 → terbuka ke atas":"&lt; 0 → terbuka ke bawah"}`],
+["Hitung diskriminan",`D = b² − 4ac<br>D = ${g(b)}² − 4${g(a)}${g(c)} = ${r(D)}`],
+["Cari akar (titik potong sumbu x)",rt],["Sumbu simetri",`x = −b / 2a = ${r(xp)}`],
+["Titik puncak",`xp = ${r(xp)}<br>yp = f(${r(xp)}) = ${r(yp)}<br>puncak = (${r(xp)}, ${r(yp)})`],
+["Titik potong sumbu y",`f(0) = ${r(c)} → (0, ${r(c)})`]])+`<button class="btn" onclick="gx('${r(a)}x^2+${r(b)}x+${r(c)}')">Gambar di grafik</button>`}
+["la","lb"].forEach(i=>$(i).oninput=linOut);["qa","qb","qc"].forEach(i=>$(i).oninput=quadOut);
+linOut();quadOut();
+calc();draw();
+function enter(name,kls){$("who").textContent=name+(kls?" · "+kls:"");$("hp").textContent=(kls?"Kelas "+kls+" · ":"")+"Materi Fungsi - Matematika";$("login").style.display="none";document.querySelector(".app").style.display="";$("hi").textContent="Halo, "+name+"!";show("dash")}
+function tryLogin(){const u=$("lu").value.trim(),p=$("lp").value.trim();
+if(!u||!p){$("lerr").textContent="Nama dan kelas wajib diisi.";return}
+$("lerr").textContent="";enter(u,p.trim())}
+$("lgo").onclick=tryLogin;
+$("lp").onkeydown=e=>{if(e.key==="Enter")tryLogin()};
+$("lguest").onclick=()=>{$("lerr").textContent="";enter("Guru")};
+$("out").onclick=()=>{$("lu").value="";$("lp").value="";document.querySelector(".app").style.display="none";$("login").style.display="flex";window.scrollTo(0,0)};
+</script>
+</body>
+</html>
